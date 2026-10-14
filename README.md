@@ -2,7 +2,7 @@
 
 Web app mobile-first (PWA) para acompanhar treino em casa e peso.
 
-**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase (banco + login por magic link) · Recharts · Vercel.
+**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase (banco + login com e-mail e senha) · Recharts · Vercel.
 
 ## Telas
 
@@ -60,11 +60,17 @@ Em **Authentication → URL Configuration**:
 
 Sem isso, o link mágico do e-mail redireciona para o lugar errado.
 
-> **Opcional – entrar com código:** em **Authentication → Email Templates → Magic Link**, inclua
-> `{{ .Token }}` no texto do e-mail. Assim o e-mail traz também um código de 6 dígitos que pode ser
-> digitado na tela de login (útil se o link abrir em outro navegador).
+### 5. Criar seu usuário (uma vez só)
 
-### 5. Instalar no celular
+1. No Supabase, vá em **Authentication → Users → Add user → Create new user**.
+2. Digite seu e-mail e uma senha, marque **Auto Confirm User** e clique em **Create user**.
+3. Para ninguém mais conseguir criar conta: em **Authentication → Sign In / Providers → Email**,
+   desligue **Allow new users to sign up** e salve.
+
+Na tela de login, **"Esqueci a senha / entrar com link"** manda um link mágico para o seu e-mail.
+Depois de entrar, troque a senha em **Histórico → Trocar senha**.
+
+### 6. Instalar no celular
 
 **Android (Chrome):** abra a URL da Vercel → menu **⋮** → **Adicionar à tela inicial** (ou **Instalar app**).
 
@@ -79,7 +85,7 @@ O app abre em tela cheia, com tema escuro e o nome "Treino".
 ```
 app/
   (app)/            telas com navegação inferior: Hoje, Exercícios, Peso, Histórico
-  login/            login por magic link
+  login/            login com e-mail e senha (link mágico como alternativa)
   auth/callback/    troca o código do link mágico por sessão
   manifest.ts       manifest do PWA
 components/         telas e componentes (Client Components)

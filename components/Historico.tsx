@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { META_SEMANAL, NOMES_TIPO, type TipoTreino } from "@/lib/exercicios";
 import { deISO, formatarData, hojeISO, inicioDaSemana, paraISO, somarDias } from "@/lib/datas";
 import type { TreinoRealizado } from "@/lib/tipos";
-import { Cartao, Carregando, Titulo, botaoSecundario, useMontado } from "./ui";
+import { Cartao, Carregando, Titulo, botaoSecundario, campo, useMontado } from "./ui";
 
 const COR_TIPO: Record<TipoTreino, string> = {
   forca: "bg-destaque",
@@ -118,10 +118,57 @@ function HistoricoConteudo() {
         </div>
       </section>
 
-      <button onClick={sair} className={`${botaoSecundario} mt-10`}>
+      <TrocarSenha />
+
+      <button onClick={sair} className={`${botaoSecundario} mt-3`}>
         Sair
       </button>
     </>
+  );
+}
+
+function TrocarSenha() {
+  const [aberto, setAberto] = useState(false);
+  const [senha, setSenha] = useState("");
+  const [msg, setMsg] = useState<{ ok: boolean; texto: string } | null>(null);
+  const [salvando, setSalvando] = useState(false);
+
+  async function salvar(e: React.FormEvent) {
+    e.preventDefault();
+    if (senha.length < 6) return setMsg({ ok: false, texto: "Use pelo menos 6 caracteres." });
+    setSalvando(true);
+    const { error } = await createClient().auth.updateUser({ password: senha });
+    setSalvando(false);
+    if (error) return setMsg({ ok: false, texto: error.message });
+    setSenha("");
+    setMsg({ ok: true, texto: "Senha alterada." });
+  }
+
+  if (!aberto) {
+    return (
+      <button onClick={() => setAberto(true)} className={`${botaoSecundario} mt-10`}>
+        Trocar senha
+      </button>
+    );
+  }
+
+  return (
+    <Cartao className="mt-10">
+      <form onSubmit={salvar} className="space-y-3">
+        <input
+          type="password"
+          autoComplete="new-password"
+          placeholder="Nova senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          className={campo}
+        />
+        <button type="submit" disabled={salvando} className={botaoSecundario}>
+          {salvando ? "Salvando…" : "Salvar nova senha"}
+        </button>
+        {msg && <p className={msg.ok ? "text-destaque" : "text-red-400"}>{msg.texto}</p>}
+      </form>
+    </Cartao>
   );
 }
 
