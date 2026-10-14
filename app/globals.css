@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-fundo: #0b0f14;
+  --color-cartao: #151b23;
+  --color-borda: #263040;
+  --color-texto: #e8edf3;
+  --color-suave: #94a3b8;
+  --color-destaque: #22c55e;
+  --color-alerta: #f59e0b;
+  --font-sans: var(--font-geist-sans);
+}
+
+html {
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-fundo);
+  color: var(--color-texto);
+  font-size: 18px;
+}
+
+input,
+textarea,
+select {
+  font-size: 18px; /* evita zoom automático no iOS */
+}
