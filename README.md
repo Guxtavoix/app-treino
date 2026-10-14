@@ -26,8 +26,10 @@ Web app mobile-first (PWA) para acompanhar treino em casa e peso.
 ### 1. Supabase: criar o projeto e o banco
 
 1. Crie uma conta em [supabase.com](https://supabase.com) e clique em **New project**.
-2. No projeto, abra **SQL Editor → New query**, cole o conteúdo de
-   [`supabase/migrations/20261014000000_init.sql`](supabase/migrations/20261014000000_init.sql) e clique em **Run**.
+2. No projeto, abra **SQL Editor → New query**, cole e rode (**Run**), nesta ordem, os arquivos de
+   [`supabase/migrations/`](supabase/migrations/):
+   - `20261014000000_init.sql` (tabelas e RLS)
+   - `20261014000100_rls_select_auth_uid.sql` (otimização das policies)
 3. Em **Project Settings → API**, copie:
    - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
    - **anon public** key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
